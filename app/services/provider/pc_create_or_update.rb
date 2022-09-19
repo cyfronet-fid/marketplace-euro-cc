@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class Provider::PcCreateOrUpdate
+class Provider::PcCreateOrUpdate < ApplicationService
   def initialize(eosc_registry_provider, is_active, modified_at)
+    super()
     @eosc_registry_provider = eosc_registry_provider
     @eid = eosc_registry_provider["id"]
     @is_active = is_active
@@ -11,7 +12,7 @@ class Provider::PcCreateOrUpdate
   def call
     provider_hash = Importers::Provider.new(@eosc_registry_provider, @modified_at).call
     mapped_provider =
-      Provider.joins(:sources).find_by("provider_sources.source_type": "eosc_registry", "provider_sources.eid": @eid)
+      Provider.joins(:sources).find_by("provider_sources.source_type": "eosc_registry", "provider_sources.eid": [@eid])
     if mapped_provider.nil?
       mapped_provider = Provider.new(provider_hash)
       mapped_provider.set_default_logo

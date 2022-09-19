@@ -88,12 +88,13 @@ class Importers::Service < ApplicationService
       platforms = map_platforms(Array(@data["relatedPlatforms"]))
       funding_bodies = map_funding_bodies(Array(@data["fundingBody"]))
       funding_programs = map_funding_programs(Array(@data["fundingPrograms"]))
-      grant_project_names = Array(@data["grantProjectNames"])
+      grant_project_names = Array(@data["grantProjectNames"]) || []
     end
 
     status = ENV["RESOURCE_IMPORT_STATUS"] || "published"
 
-    main_contact = MainContact.new(map_contact(@data["mainContact"])) if @data["mainContact"]
+    main_contact = @data["mainContact"].present? ? MainContact.new(map_contact(@data["mainContact"])) : nil
+    research_categories = @data["researchCategories"].present? ? Array(@data["researchCategories"]) : nil
 
     {
       pid: @data["id"],
@@ -111,6 +112,8 @@ class Importers::Service < ApplicationService
       # Classification
       scientific_domains: map_scientific_domains(scientific_domains),
       categories: map_categories(categories) || [],
+      horizontal: @data["horizontalService"] || false,
+      research_categories: map_research_categories(research_categories),
       target_users: map_target_users(target_users),
       access_types: map_access_types(access_types),
       access_modes: map_access_modes(access_modes),

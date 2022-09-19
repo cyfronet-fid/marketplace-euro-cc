@@ -27,9 +27,13 @@ class ServicesController < ApplicationController
                     )
       end
     end
-    @services, @offers = search(scope)
+    subgroup_quantity = 5
+    additionals_size = per_page / subgroup_quantity
+    @services, @offers = search(scope, additionals_size: additionals_size)
+    @horizontal_services = horizontal_services(@services, additionals_size)
+    @presentable = presentable
     begin
-      @pagy = Pagy.new_from_searchkick(@services, items: params[:per_page])
+      @pagy = Pagy.new_from_searchkick(@services, items: per_page(additionals_size))
     rescue Pagy::OverflowError
       params[:page] = 1
       @services, @offers = search(scope)
@@ -78,5 +82,21 @@ class ServicesController < ApplicationController
 
   def provider_scope
     policy_scope(Provider).with_attached_logo
+  end
+
+  def presentable
+    if @horizontal_services.size.zero?
+      @services
+    else
+      @services
+        .each_slice(per_page(@horizontal_services.size) / @horizontal_services.size)
+        .zip(@horizontal_services)
+        .flatten
+    end
+  end
+
+  def horizontal_services(services, limit)
+    service_ids = services.map(&:id)
+    Service.horizontal.reject { |s| service_ids.include? s.id }.sample(limit)
   end
 end
