@@ -1,4 +1,6 @@
 .row
+  - if @object&.horizontal.presence
+    %span.horizontal-badge Horizontal service
   .col-12.col-lg-9.row
     .col-12.col-sm-3.d-flex.img-service-detail
       - if @preview

@@ -2450,6 +2450,7 @@ label[data-multicheckbox].small {
   -moz-border-radius: 5px;
   border-radius: 5px;
   overflow: hidden;
+  position: relative;
 
   &.horizontal {
     background: $palette-lightblue2;
@@ -2457,6 +2458,22 @@ label[data-multicheckbox].small {
     .media-body {
       padding-top: 42px !important;
     }
+  }
+
+  .horizontal-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    background: $badge-blue;
+    color: $navbar-light-active-color;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    line-height: 12px;
+    padding: 9px 17px;
+    text-align: center;
+    border-bottom-left-radius: 5px;
+    font-weight: 400;
   }
 
   .project-badge {
@@ -2610,7 +2627,7 @@ label[data-multicheckbox].small {
     }
 
     &.badge-blue {
-      background: #f0f3f5;
+      background: $badge-blue;
       color: $navbar-light-active-color;
     }
   }
