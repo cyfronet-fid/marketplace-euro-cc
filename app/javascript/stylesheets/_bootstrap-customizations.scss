@@ -2453,6 +2453,10 @@ label[data-multicheckbox].small {
 
   &.horizontal {
     background: $palette-lightblue2;
+
+    .media-body {
+      padding-top: 42px !important;
+    }
   }
 
   .project-badge {
@@ -2606,8 +2610,8 @@ label[data-multicheckbox].small {
     }
 
     &.badge-blue {
-      background-image: linear-gradient(135deg, $btn-primary-gradient-start 0%, $btn-primary-gradient-end 100%);
-      color: $white;
+      background: #f0f3f5;
+      color: $navbar-light-active-color;
     }
   }
 
