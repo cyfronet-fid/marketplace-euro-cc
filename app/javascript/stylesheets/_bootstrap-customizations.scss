@@ -2660,11 +2660,26 @@ label[data-multicheckbox].small {
         font-size: 0.5em;
         text-transform: uppercase;
         line-height: 12px;
-        padding: 8px 14px;
+        padding: 8px 14px 7px;
         text-align: center;
         border-bottom-left-radius: 5px;
         font-weight: 400;
       }
+    }
+
+    .badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: auto;
+      max-width: 155px;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      line-height: 12px;
+      padding: 8px 14px 7px;
+      text-align: center;
+      border-bottom-left-radius: 5px;
+      font-weight: 400;
     }
   }
 
