@@ -2476,6 +2476,10 @@ label[data-multicheckbox].small {
     font-weight: 400;
   }
 
+  .horizontal-space {
+    margin-top: 25px;
+  }
+
   .project-badge {
     margin: 15px 20px 0 0;
   }
@@ -2640,6 +2644,12 @@ label[data-multicheckbox].small {
   .media-body {
     border-right: 1px solid $palette-gray-10;
     position: relative;
+
+    &.backoffice {
+      .badge-blue {
+        right: 85px;
+      }
+    }
 
     .compare {
       float: left;

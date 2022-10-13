@@ -54,7 +54,7 @@
                   #popup-modal.modal.show{ "data-target": "favourite.popup", tabindex: "-1",
                                     role: "dialog", aria: { hidden: "true" } }
 
-  .col-12.col-lg-3.text-center.vertical-center
+  .col-12.col-lg-3.text-center.vertical-center{ class: ("horizontal-space" if @object&.horizontal.presence) }
     .vertical-center-inner.access-type
       = buttons
 .row.service-links
