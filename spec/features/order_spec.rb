@@ -190,7 +190,7 @@ RSpec.feature "Service ordering" do
           internal: true,
           order_type: service.order_type,
           order_url: service.order_url,
-          bundled_offers: [bundled]
+          bundled_connected_offers: [bundled]
         )
 
       _default_project = user.projects.find_by(name: "Services")
@@ -224,7 +224,7 @@ RSpec.feature "Service ordering" do
           service: service,
           order_type: service.order_type,
           order_url: service.order_url,
-          bundled_offers: [bundled]
+          bundled_connected_offers: [bundled]
         )
 
       _default_project = user.projects.find_by(name: "Services")
@@ -708,7 +708,8 @@ RSpec.feature "Service ordering" do
       scenario "I can order a service bundle" do
         child1 = create(:offer_with_parameters)
         child2 = create(:offer_with_parameters)
-        parent = create(:offer, service: service, bundled_offers: [child1, child2])
+        parent = create(:offer, service: service, bundled_connected_offers: [child1, child2])
+        create(:bundle, service: service, main_offer: parent, offers: parent.bundled_connected_offers)
 
         visit service_path(service)
 
@@ -758,7 +759,7 @@ RSpec.feature "Service ordering" do
         expect(page).to have_content(child2.service.name)
 
         # The bundle reference should stay after unbundling offers
-        parent.update(bundled_offers: [])
+        parent.update(bundled_connected_offers: [])
 
         visit project_services_path(pi1.project)
 

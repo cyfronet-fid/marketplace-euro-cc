@@ -1,9 +1,4 @@
 .card-body.pt-4.pb-0.pl-0.collapse-group
-  - if offer.voucherable
-    .card-label
-      %i.fas.fa-ticket-alt
-      %span
-        = _("Voucher")
   %span.bundle-logo
     = presentable_logo(offer.service, "align-self-center img-fluid bundle-img", "180x90")
     - offer.bundled_offers.each do |item|

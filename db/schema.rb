@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_12_232052) do
+ActiveRecord::Schema.define(version: 2023_01_02_060934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,76 @@ ActiveRecord::Schema.define(version: 2022_12_12_232052) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "bundle_categories", force: :cascade do |t|
+    t.bigint "bundle_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bundle_id"], name: "index_bundle_categories_on_bundle_id"
+    t.index ["category_id"], name: "index_bundle_categories_on_category_id"
+  end
+
+  create_table "bundle_offers", force: :cascade do |t|
+    t.bigint "bundle_id", null: false
+    t.bigint "offer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bundle_id"], name: "index_bundle_offers_on_bundle_id"
+    t.index ["offer_id"], name: "index_bundle_offers_on_offer_id"
+  end
+
+  create_table "bundle_scientific_domains", force: :cascade do |t|
+    t.bigint "bundle_id", null: false
+    t.bigint "scientific_domain_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bundle_id"], name: "index_bundle_scientific_domains_on_bundle_id"
+    t.index ["scientific_domain_id"], name: "index_bundle_scientific_domains_on_scientific_domain_id"
+  end
+
+  create_table "bundle_target_users", force: :cascade do |t|
+    t.bigint "bundle_id", null: false
+    t.bigint "target_user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bundle_id"], name: "index_bundle_target_users_on_bundle_id"
+    t.index ["target_user_id"], name: "index_bundle_target_users_on_target_user_id"
+  end
+
+  create_table "bundle_vocabularies", force: :cascade do |t|
+    t.bigint "bundle_id", null: false
+    t.bigint "vocabulary_id", null: false
+    t.string "vocabulary_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bundle_id", "vocabulary_id", "vocabulary_type"], name: "index_bundles_vocabularies"
+    t.index ["bundle_id"], name: "index_bundle_vocabularies_on_bundle_id"
+    t.index ["vocabulary_id"], name: "index_bundle_vocabularies_on_vocabulary_id"
+  end
+
+  create_table "bundles", force: :cascade do |t|
+    t.bigint "iid", null: false
+    t.string "name", null: false
+    t.text "description", null: false
+    t.string "order_type", null: false
+    t.jsonb "parameters"
+    t.bigint "main_offer_id", null: false
+    t.bigint "service_id", null: false
+    t.bigint "resource_organisation_id", null: false
+    t.string "status", default: "published"
+    t.boolean "related_training", default: false
+    t.string "related_training_url"
+    t.string "contact_email"
+    t.string "helpdesk_url", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["iid"], name: "index_bundles_on_iid"
+    t.index ["main_offer_id"], name: "index_bundles_on_main_offer_id"
+    t.index ["resource_organisation_id"], name: "index_bundles_on_resource_organisation_id"
+    t.index ["service_id", "iid"], name: "index_bundles_on_service_id_and_iid", unique: true
+    t.index ["service_id"], name: "index_bundles_on_service_id"
   end
 
   create_table "catalogues", force: :cascade do |t|
@@ -268,7 +338,7 @@ ActiveRecord::Schema.define(version: 2022_12_12_232052) do
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
   end
 
-  create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|
+  create_table "friendly_id_slugs", id: :integer, default: nil, force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
@@ -432,6 +502,29 @@ ActiveRecord::Schema.define(version: 2022_12_12_232052) do
     t.index ["default"], name: "index_omses_on_default"
     t.index ["service_id"], name: "index_omses_on_service_id"
     t.index ["type"], name: "index_omses_on_type"
+  end
+
+  create_table "order_changes", force: :cascade do |t|
+    t.string "status"
+    t.text "message"
+    t.bigint "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_order_changes_on_author_id"
+    t.index ["order_id"], name: "index_order_changes_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "status", null: false
+    t.bigint "service_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "issue_id"
+    t.integer "issue_status", default: 2, null: false
+    t.index ["service_id"], name: "index_orders_on_service_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "persistent_identity_system_vocabularies", force: :cascade do |t|
@@ -788,7 +881,7 @@ ActiveRecord::Schema.define(version: 2022_12_12_232052) do
     t.index ["status_holder_type", "status_holder_id"], name: "index_statuses_on_status_holder_type_and_status_holder_id"
   end
 
-  create_table "taggings", id: :serial, force: :cascade do |t|
+  create_table "taggings", id: :integer, default: nil, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
     t.integer "taggable_id"
@@ -807,7 +900,7 @@ ActiveRecord::Schema.define(version: 2022_12_12_232052) do
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
   end
 
-  create_table "tags", id: :serial, force: :cascade do |t|
+  create_table "tags", id: :integer, default: nil, force: :cascade do |t|
     t.string "name"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true

@@ -61,7 +61,7 @@ class ServicesController < ApplicationController
 
     authorize(ServiceContext.new(@service, params.key?(:from) && params[:from] == "backoffice_service"))
     @offers = policy_scope(@service.offers.published).order(:created_at).select { |o| o.bundle? == false }
-    @bundles = policy_scope(@service.offers.published).order(:created_at).select(&:bundle?)
+    @bundles = policy_scope(@service.bundles.published)
     @similar_services = fetch_similar(@service.id, current_user&.id)
     @similar_services_title = "Similar services"
     @related_services = @service.target_relationships

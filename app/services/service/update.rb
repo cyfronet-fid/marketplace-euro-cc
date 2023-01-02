@@ -56,7 +56,7 @@ class Service::Update < ApplicationService
       .published
       .filter(&:bundle?)
       .each do |published_bundle|
-        published_bundle.bundled_offers.each do |bundled_offer|
+        published_bundle.bundled_connected_offers.each do |bundled_offer|
           Offer::Mailer::Bundled.call(bundled_offer, published_bundle)
         end
       end
@@ -67,10 +67,10 @@ class Service::Update < ApplicationService
       .offers
       .filter(&:bundled?)
       .each do |bundled_offer|
-        bundled_offer.bundle_offers.each do |bundle_offer|
+        bundled_offer.bundle_connected_offers.each do |bundle_offer|
           Offer::Update.call(
             bundle_offer,
-            { bundled_offers: bundle_offer.bundled_offers.to_a.reject { |o| o == bundled_offer } }
+            { bundled_connected_offers: bundle_offer.bundled_connected_offers.to_a.reject { |o| o == bundled_offer } }
           )
           Offer::Mailer::Unbundled.call(bundle_offer, bundled_offer)
         end

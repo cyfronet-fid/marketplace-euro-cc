@@ -1,0 +1,16 @@
+.card-body.pt-4.collapse-group
+  %span.text-sm-right.fa-pull-right.badge
+    %i{ class: "ordertype #{bundle.order_type}" }
+    -# TODO: refactor dynamic translation
+    = t("offers.type.#{bundle.order_type}")
+  %h4.card-title= bundle.name
+  = ([bundle.service.name] << bundle.offers.map { |o| o.service.name }).join(" + ")
+  .card-text.mb-2{ "data-controller" => "paragraph" }
+    - if bundle.description.size > 200
+      = markdown(bundle.description.truncate(200, separator: " "))
+      = link_to _("Show more"), "#", class: "show-more-#{bundle.id}",
+                                  data: { "target" => "paragraph.showMore",
+                                          "action" => "click->paragraph#showMore",
+                                          text: markdown(bundle.description) }
+    - else
+      = markdown(bundle.description)

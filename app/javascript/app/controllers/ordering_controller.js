@@ -5,6 +5,8 @@ export default class extends Controller {
     "orderType",
     "internal",
     "internalWrapper",
+    "training",
+    "trainingWrapper",
     "primaryOms",
     "primaryOmsWrapper",
     "orderUrlWrapper",
@@ -35,9 +37,14 @@ export default class extends Controller {
       // The undefined case is that of a default offer with order_type=order_required,
       // for order_type!=order_required this controller shouldn't be registered at all.
       !this.hasOrderTypeTarget || this.orderTypeTarget.value === "order_required";
-    const isInternal = this.internalTarget.checked;
+    const isInternal = this.hasInternalTarget && this.internalTarget.checked;
 
-    doShowOrDisable(this.internalWrapperTarget, isOrderRequired);
+    if (this.hasinternalTarget) {
+      doShowOrDisable(this.internalWrapperTarget, isOrderRequired);
+    }
+
+    const hasRelatedTraining = this.trainingTarget.checked;
+    doShowOrDisable(this.trainingWrapperTarget, hasRelatedTraining);
 
     if (this.hasOrderUrlWrapperTarget) {
       doShowOrDisable(this.orderUrlWrapperTarget, !(isOrderRequired && isInternal));
