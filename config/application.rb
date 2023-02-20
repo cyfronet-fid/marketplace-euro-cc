@@ -92,5 +92,11 @@ module Mp
       else
         Rails.env.test?
       end
+
+    config.search_base_url =
+      ENV["MP_SEARCH_BASE_URL"].present? ? ENV["MP_SEARCH_BASE_URL"] : nil
+
+    config.whitelabel =
+      ENV["MP_WHITELABEL"].present? ? ENV["MP_WHITELABEL"] : false
   end
 end
