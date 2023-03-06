@@ -1703,8 +1703,6 @@ h5 {
 }
 
 .parameters-title {
-  padding: 0 0 7px;
-  border-bottom: 2px solid $secondary;
   font-size: 1.05em;
 
   svg {
@@ -3132,6 +3130,54 @@ label[data-multicheckbox].small {
 .bundle-box {
   &.padding {
     padding-left: 30px;
+  }
+}
+
+.bundle {
+  .card {
+    .row {
+      margin-right: 0;
+
+      .table {
+        td {
+          padding: 0 4px;
+          font-size: 11px;
+        }
+      }
+
+      .card-title {
+        margin-bottom: 0.35rem;
+      }
+
+      .bundle-elements {
+        margin-bottom: 18px;
+        font-size: 12px;
+      }
+
+      .bundle-description {
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      .order-type {
+        font-size: 12px;
+        color: $green;
+        text-align: center;
+        width: 100%;
+      }
+
+      .card-button {
+        margin-bottom: 7px;
+
+        .btn {
+          font-size: 12px;
+          border-radius: 4px;
+          text-align: center;
+          padding: 10px 13px;
+          width: 100%;
+        }
+      }
+    }
   }
 }
 

@@ -1,9 +1,8 @@
 - if technical_parameters.present?
-  #collapse-example.bundle-box.collapse.mt-4
-    %h5.parameters-title.mb-0.mt-4
-      %i.fas.fa-tachometer-alt
-      = _("Technical Parameters")
-    %table.offer-params.table.table-hover
+  .bundle-box
+    %h5.parameters-title
+      = _("Available Technical Parameters")
+    %table.offer-params.table.table-borderless
       %tbody
         - technical_parameters.each do |parameter|
           %tr
