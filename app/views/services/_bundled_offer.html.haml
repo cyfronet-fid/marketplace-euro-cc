@@ -1,11 +1,10 @@
 .col-md-6.bundle-item.d-flex.align-items-stretch{ id: "offer-#{offer.id}" }
   .card
     .card-body
-      %h4.card-title.mb-1
+      %h4.card-title
         = offer.name
-      .text-muted.mb-1
+      .text-muted
         = _("Provided by #{offer.service.name}")
-      %p
-        .card-text.mb-2{ "data-controller" => "paragraph" }
+      .card-text{ "data-controller" => "paragraph" }
         = render "services/offers/bundle_parameters",
               technical_parameters: offer.attributes.map(&:to_json)

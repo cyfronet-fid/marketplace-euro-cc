@@ -1,4 +1,4 @@
-.card-body.pt-4.pr-0.collapse-group
+.card-body.pt-4
   %h4.card-title= bundle.name
   .bundle-elements
     = ([bundle.service.name] << bundle.offers.map { |o| o.service.name }).join(" + ")

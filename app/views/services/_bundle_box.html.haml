@@ -1,7 +1,7 @@
 .col-md-12.d-flex.align-items-stretch.bundle{ id: "bundle-#{bundle.id}" }
   .card
-    .row
-      .col-md-10.m-0
+    .row.mr-0
+      .col-md-10.m-0.pr-0
         = render "services/bundles/description", bundle: bundle
         = render "services/bundle", bundled_offers: bundle.offers, parent: bundle.main_offer
 
@@ -10,7 +10,7 @@
           = link_to service_offers_path(bundle.main_offer.service,
               customizable_project_item: { offer_id: bundle.main_offer.iid }),
               "data-probe": "", "data-service-id": bundle.service.id, method: :put do
-            %span.btn.btn-primary.font-webtn-linkight-bold
+            %span.btn.btn-primary.font-webtn-linkight-bold.small-button
               = _("Select bundle")
         .order-type
           = t("offers.type.#{bundle.order_type}")
