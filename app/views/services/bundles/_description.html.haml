@@ -14,6 +14,9 @@
                                               text: markdown(bundle.description) }
         - else
           = markdown(bundle.description)
-    .col-4
+    .col-md-4
       = render "services/offers/bundle_parameters",
-          technical_parameters: bundle.main_offer.attributes.map(&:to_json)
+          technical_parameters: bundle.main_offer.attributes.map(&:to_json),
+          research_steps: bundle.research_steps || [],
+          contact_email: bundle.contact_email || "",
+          related_training: bundle.related_training_url || ""

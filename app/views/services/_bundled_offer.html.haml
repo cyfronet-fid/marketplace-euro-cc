@@ -1,9 +1,9 @@
-.col-md-6.bundle-item.mb-5.d-flex.align-items-stretch{ id: "offer-#{offer.id}" }
+.col-md-6.bundle-item.d-flex.align-items-stretch{ id: "offer-#{offer.id}" }
   .card
     .card-body
       %h4.card-title.mb-1
         = offer.name
-      .text-muted.mb-3
+      .text-muted.mb-1
         = _("Provided by #{offer.service.name}")
       %p
         .card-text.mb-2{ "data-controller" => "paragraph" }
