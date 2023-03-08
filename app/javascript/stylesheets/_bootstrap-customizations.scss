@@ -3156,6 +3156,30 @@ label[data-multicheckbox].small {
       }
     }
 
+    .bundle-goals {
+      display: inline-block;
+
+      .goal {
+        font-size: 12px;
+        padding: 4px 12px;
+        float: left;
+        margin: 0 20px 0 0;
+        border-radius: 4px;
+        background: $tag-bg-1;
+        color: $tag-color-1;
+
+        &:nth-child(2) {
+          background: $tag-bg-2;
+          color: $tag-color-2;
+        }
+
+        &:nth-child(3) {
+          background: $tag-bg-3;
+          color: $tag-color-3;
+        }
+      }
+    }
+
     .contact-link {
       display: block;
       margin: 25px 0 0;

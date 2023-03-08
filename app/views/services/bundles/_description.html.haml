@@ -1,5 +1,8 @@
 .card-body.pt-4
-  %h4.card-title= bundle.name
+  .bundle-goals
+    - bundle.bundle_goals.each do |goal|
+      %span.goal= goal.name
+  %h4.card-title.pt-3= bundle.name
   .bundle-elements
     = ([bundle.service.name] << bundle.offers.map { |o| o.service.name }).join(" + ")
 
