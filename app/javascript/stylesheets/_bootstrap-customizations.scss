@@ -3128,6 +3128,14 @@ label[data-multicheckbox].small {
 }
 
 .bundle-box {
+
+  .bundle-offer-pic {
+    img {
+      max-width: 65px;
+      height: auto;
+    }
+  }
+
   &.padding {
     padding-left: 30px;
   }
