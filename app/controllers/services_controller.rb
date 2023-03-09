@@ -60,7 +60,7 @@ class ServicesController < ApplicationController
     @service.monitoring_status = fetch_status(@service.pid)
 
     authorize(ServiceContext.new(@service, params.key?(:from) && params[:from] == "backoffice_service"))
-    @offers = policy_scope(@service.offers.published).order(:created_at).select { |o| o.bundle? == false }
+    @offers = policy_scope(@service.offers.published).order(:created_at)
     @bundles = policy_scope(@service.bundles.published)
     @similar_services = fetch_similar(@service.id, current_user&.id)
     @similar_services_title = "Similar services"

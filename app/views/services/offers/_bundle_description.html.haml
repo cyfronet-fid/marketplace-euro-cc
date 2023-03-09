@@ -1,7 +1,7 @@
 .card-body.pt-4.pb-0.pl-0.collapse-group
   %span.bundle-logo
     = presentable_logo(offer.service, "align-self-center img-fluid bundle-img", "180x90")
-    - offer.bundled_offers.each do |item|
+    - offer.bundled_connected_offers.each do |item|
       = presentable_logo(item.service, "align-self-center img-fluid bundle-img", "180x90")
   %h4.card-title= offer.name
   %p

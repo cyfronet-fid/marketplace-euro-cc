@@ -7,6 +7,7 @@ class Bundle::Create < ApplicationService
   end
 
   def call
+    @bundle.order_type = @bundle.main_offer.order_type
     if @bundle.save
       @bundle.main_offer.bundled_connected_offers = @bundle.offers
       notify_added_bundled_offers! if @bundle.main_offer.save(validate: false)
