@@ -131,7 +131,7 @@ a {
 
 .btn-primary {
   @include button-variant($btn-primary-hover, $white, $btn-primary-hover, $white, $btn-primary-hover, $white);
-  background-color: $btn-primary-gradient-end;
+  background-image: linear-gradient(135deg, $btn-primary-gradient-start 0%, $btn-primary-gradient-end 100%);
 
   @include hover-focus-active {
     background-image: unset;
@@ -2933,7 +2933,7 @@ label[data-multicheckbox].small {
 
     dd {
       a {
-        font-weight: $font-weight-normal;
+        font-weight: 600;
       }
     }
   }
