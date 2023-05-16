@@ -40,8 +40,11 @@ module FormsHelper
   end
 
   def other_offers(service)
-    Offer
-      .published
+    Service
+      .find_each
+      .filter(&:public?)
+      .map { |s| s.offers.published }
+      .flatten
       .reject { |item| (item.in? service.offers) || item.service.nil? }
       .map { |item| ["#{item.service.name} > #{item.name}", item.id] }
   end

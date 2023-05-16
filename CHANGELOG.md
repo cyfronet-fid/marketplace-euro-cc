@@ -18,6 +18,7 @@ Please view this file on the master branch, on stable branches it's out of date.
 
 ### Fixed
 - REST data import token exchange (@goreck888)
+- Disable offers for unpublished services in bundles form (@goreck888)
 
 ## [3.47.3] 2023-04-03
 
