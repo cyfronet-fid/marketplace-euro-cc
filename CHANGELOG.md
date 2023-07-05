@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Please view this file on the master branch, on stable branches it's out of date.
+## [3.50.0-milestone]
+
+### Added
+- Optional hiding offers dedicated for bundle (@goreck888)
+
+### Changed
+- Bundle linking available for all types of offers (@goreck888)
+
+### Fixed
+- Adding drafted offer to the bundle (@goreck888)
+- Adding parameters to the bundled offer (@goreck888)
+- Handling errors on the offer's destroy (@goreck888)
+- Ordering another bundle in the same service (@goreck888)
+- Linking one main offer with multiple bundles (@goreck888)
+
 ## [3.49.2] 2023-07-31
 
 ## [3.49.0] 2023-06-27
