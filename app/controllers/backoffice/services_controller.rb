@@ -47,8 +47,8 @@ class Backoffice::ServicesController < Backoffice::ApplicationController
   def show
     @service.monitoring_status = fetch_status(@service.pid)
     @offer = Offer.new(service: @service, status: :draft)
-    @offers = @service.offers.published.order(:created_at)
-    @bundles = @service.bundles.order(:created_at)
+    @offers = policy_scope(@service.offers).order(:created_at)
+    @bundles = policy_scope(@service.bundles).order(:created_at)
     @client = @client&.credentials&.expires_at.blank? ? Google::Analytics.new : @client
     @service.analytics = Analytics::PageViewsAndRedirects.new(@client).call(request.path)
     @similar_services = fetch_similar(@service.id, current_user&.id)
