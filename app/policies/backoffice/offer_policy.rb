@@ -30,7 +30,15 @@ class Backoffice::OfferPolicy < ApplicationPolicy
   end
 
   def destroy?
-    managed? && orderless? && !service_deleted?
+    managed? && record.persisted? && orderless? && !service_deleted?
+  end
+
+  def publish?
+    managed? && record.persisted? && record.draft?
+  end
+
+  def draft?
+    managed? && record.persisted? && record.published? && record.service.offers.published.size > 1
   end
 
   def permitted_attributes
@@ -38,6 +46,7 @@ class Backoffice::OfferPolicy < ApplicationPolicy
       :id,
       :name,
       :description,
+      :bundle_exclusive,
       :order_type,
       :order_url,
       :internal,
@@ -67,7 +76,7 @@ class Backoffice::OfferPolicy < ApplicationPolicy
   private
 
   def managed?
-    service_portfolio_manager? || record.service.owned_by?(user)
+    service_portfolio_manager? || record.service.administered_by?(user) || record.service.owned_by?(user)
   end
 
   def service_portfolio_manager?

@@ -33,6 +33,18 @@ class Backoffice::BundlePolicy < ApplicationPolicy
     managed? && orderless? && !service_deleted?
   end
 
+  def delete?
+    managed? && record.persisted? && !service_deleted?
+  end
+
+  def draft?
+    managed? && record.persisted? && record.published?
+  end
+
+  def publish?
+    managed? && record.status == "draft"
+  end
+
   def permitted_attributes
     [
       :id,

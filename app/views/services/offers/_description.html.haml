@@ -5,9 +5,7 @@
       %span
         = _("Voucher")
   %span.text-sm-right.fa-pull-right.badge
-    %i{ class: "ordertype #{offer.order_type}" }
-    -# TODO: refactor dynamic translation
-    = t("offers.type.#{offer.order_type}")
+    = service_status(offer)
   %h4.card-title= offer.name
 
   .card-text.mb-2{ "data-controller" => "paragraph" }

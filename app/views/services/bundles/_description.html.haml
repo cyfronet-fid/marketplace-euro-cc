@@ -2,6 +2,7 @@
   .bundle-goals
     - bundle.bundle_goals.each do |goal|
       %span.goal= goal.name
+  = service_status(bundle)
   %h4.card-title.pt-2= bundle.name
 
   .bundle-description
