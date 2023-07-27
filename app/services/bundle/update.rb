@@ -13,11 +13,11 @@ class Bundle::Update < ApplicationService
 
   def call
     public_before = @bundle.published?
-    current_main_offer = Offer&.find_by(id: @params["main_offer_id"] || @bundle.main_offer_id)
-    @params["order_type"] = current_main_offer&.order_type
+    current_main_offer = Offer&.find_by(id: @params[:main_offer_id] || @bundle.main_offer_id)
+    @params[:order_type] = current_main_offer&.order_type
     notify_bundled_offers! if @bundle.update(@params) && !@external_update && public_before
     notify_own_offer! if @external_update
-    @bundle = Bundle::Draft.call(@bundle, empty_offers: @current_offer_ids == []) if @external_update
+    @bundle = Bundle::Draft.call(@bundle, empty_offers: @current_offer_ids&.empty?) if @external_update
     @bundle.service.reindex
     @bundle.offers.reindex
     @bundle.reindex

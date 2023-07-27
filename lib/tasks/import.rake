@@ -12,8 +12,8 @@ namespace :import do
       dry_run: ENV["DRY_RUN"] || false,
       default_upstream: (ENV["UPSTREAM"] || "eosc_registry").to_sym,
       ids: (ENV["IDS"] || "").split(","),
-      filepath: ENV["OUTPUT"],
-      token: ENV["MP_IMPORT_TOKEN"]
+      filepath: ENV.fetch("OUTPUT", nil),
+      token: ENV.fetch("MP_IMPORT_TOKEN", nil)
     ).call
   end
 
@@ -23,8 +23,8 @@ namespace :import do
       dry_run: ENV["DRY_RUN"] || false,
       default_upstream: (ENV["UPSTREAM"] || "eosc_registry").to_sym,
       ids: (ENV["IDS"] || "").split(","),
-      filepath: ENV["OUTPUT"],
-      token: ENV["MP_IMPORT_TOKEN"]
+      filepath: ENV.fetch("OUTPUT", nil),
+      token: ENV.fetch("MP_IMPORT_TOKEN", nil)
     ).call
   end
 
@@ -32,8 +32,8 @@ namespace :import do
     Import::Vocabularies.new(
       ENV["MP_IMPORT_EOSC_REGISTRY_URL"] || "https://beta.providers.eosc-portal.eu/api",
       dry_run: ENV["DRY_RUN"] || false,
-      filepath: ENV["OUTPUT"],
-      token: ENV["MP_IMPORT_TOKEN"]
+      filepath: ENV.fetch("OUTPUT", nil),
+      token: ENV.fetch("MP_IMPORT_TOKEN", nil)
     ).call
   end
 
@@ -42,8 +42,8 @@ namespace :import do
       ENV["MP_IMPORT_EOSC_REGISTRY_URL"] || "https://beta.providers.eosc-portal.eu/api",
       dry_run: ENV["DRY_RUN"] || false,
       ids: (ENV["IDS"] || "").split(","),
-      filepath: ENV["OUTPUT"],
-      token: ENV["MP_IMPORT_TOKEN"]
+      filepath: ENV.fetch("OUTPUT", nil),
+      token: ENV.fetch("MP_IMPORT_TOKEN", nil)
     ).call
   end
 
@@ -53,8 +53,8 @@ namespace :import do
       dry_run: ENV["DRY_RUN"] || false,
       ids: (ENV["IDS"] || "").split(","),
       default_upstream: "eosc_registry",
-      filepath: ENV["OUTPUT"],
-      token: ENV["MP_IMPORT_TOKEN"]
+      filepath: ENV.fetch("OUTPUT", nil),
+      token: ENV.fetch("MP_IMPORT_TOKEN", nil)
     ).call
   end
 
@@ -62,8 +62,8 @@ namespace :import do
     Import::Guidelines.new(
       ENV["MP_IMPORT_EOSC_REGISTRY_URL"] || "https://beta.providers.eosc-portal.eu/api",
       dry_run: ENV["DRY_RUN"] || false,
-      filepath: ENV["OUTPUT"],
-      token: ENV["MP_IMPORT_TOKEN"]
+      filepath: ENV.fetch("OUTPUT", nil),
+      token: ENV.fetch("MP_IMPORT_TOKEN", nil)
     ).call
   end
 end

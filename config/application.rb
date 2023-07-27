@@ -68,9 +68,9 @@ module Mp
     config.monitoring_data_token = ENV.fetch("MONITORING_DATA_TOKEN",
                                              Rails.application.credentials.monitoring_data[:access_token])
     config.similar_services_host = ENV["SIMILAR_SERVICES_HOST"] || "http://149.156.10.234:4559"
-    config.recommender_host = ENV["RECOMMENDER_HOST"]
+    config.recommender_host = ENV.fetch("RECOMMENDER_HOST", nil)
     config.recommendation_engine = ENV["RECOMMENDATION_ENGINE"] || "RL"
-    config.auth_mock = ENV["AUTH_MOCK"]
+    config.auth_mock = ENV.fetch("AUTH_MOCK", nil)
     config.eosc_commons_base_url =
       if ENV["EOSC_COMMONS_BASE_URL"].present?
         ENV["EOSC_COMMONS_BASE_URL"]
