@@ -3,13 +3,6 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value="" />
-        <option name="services">
-          <list>
-            <option value="active_mq" />
-            <option value="db" />
-            <option value="el" />
-          </list>
-        </option>
         <option name="sourceFilePath" value="docker-compose.yml" />
       </settings>
     </deployment>
