@@ -1,0 +1,17 @@
+.container
+  .row
+    .col-12.col-lg-12
+      %h2 Pin a new research product to your project
+  .row.mt-4
+    .col-12.col-lg-12
+      = simple_form_for @project_research_product, url: research_products_path, method: :post do |f|
+        = f.hidden_field :research_product_id, value: @research_product&.id || @project_research_product&.project_id
+        = render "common_parts/research_product_table", attributes: @research_product.public_attributes
+
+        = render "common_parts/project_browser", step: @project_research_product, projects: @projects, f: f
+        %span.text-left
+          = link_to "Cancel and return to the search", external_search_url(include_query: true),
+          class: "btn btn-danger pl-5 pr-5 mobile-bottom-margin"
+        %span
+          = f.button :submit, "Pin to a project",
+          class: "btn btn-primary pl-5 pr-5 mobile-bottom-margin text-right", "data-e2e": "create-offer-btn"

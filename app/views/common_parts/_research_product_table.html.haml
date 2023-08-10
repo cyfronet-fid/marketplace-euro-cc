@@ -1,0 +1,16 @@
+.card.offer-description.mb-4
+  .card-body.p-4
+    %table.table.mb-1
+      %thead
+        %tr
+          %th.pl-0{ scope: "col", colspan: "2" } Research product
+      %tbody
+        - attributes.each do |attr|
+          %tr
+            %td.pl-0
+              = attr.first.humanize
+            %td
+              - if attr.first == "links"
+                = attr.second.map{ |link| link_to link, link }.join(", ").html_safe
+              - else
+                = attr.second.is_a?(Array) ? attr.second.join(", ") : attr.second

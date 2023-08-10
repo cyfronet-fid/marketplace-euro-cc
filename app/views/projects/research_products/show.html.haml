@@ -1,0 +1,7 @@
+- content_for :title, "#{@research_product.title} - #{@project.name}"
+- breadcrumb :research_product, @research_product
+
+= render "projects/research_project_layout",
+  project: @project, projects: @projects, research_product: @research_product do
+  .details.mb-5
+    = render "common_parts/research_product_table", attributes: @research_product.public_attributes

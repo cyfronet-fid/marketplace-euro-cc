@@ -85,6 +85,8 @@ module Mp
     config.home_page_external_links_enabled =
       ENV["HOME_PAGE_EXTERNAL_LINKS_ENABLED"].present? ? ENV["HOME_PAGE_EXTERNAL_LINKS_ENABLED"] : true
     config.search_service_base_url = ENV.fetch("SEARCH_SERVICE_BASE_URL", "https://search.marketplace.eosc-portal.eu")
+    config.search_service_research_product_endpoint = ENV.fetch("SEARCH_SERVICE_RESEARCH_PRODUCT_ENDPOINT",
+                                                                "/api/web/research-product/")
     config.user_dashboard_url = ENV.fetch("USER_DASHBOARD_URL",
                                           "https://eosc-user-dashboard.docker-fid.grid.cyf-kr.edu.pl")
 
