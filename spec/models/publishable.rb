@@ -30,8 +30,7 @@ shared_examples "publishable" do
       #
       # Since the active MQ should be run on the same host as the test
       # I'm expecting the message to be able to be received during that time
-      @client.join(2)
-      sleep(100) if %w[Category Platform].include?(described_class.name)
+      @client.join(1)
       expect(@received).to include(
         hash_including(
           "record",
