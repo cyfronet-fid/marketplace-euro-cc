@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_05_132350) do
+ActiveRecord::Schema.define(version: 2023_09_05_135312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2023_07_05_132350) do
     t.bigint "offer_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["bundle_id", "offer_id"], name: "index_bundle_offers_on_bundle_id_and_offer_id", unique: true
     t.index ["bundle_id"], name: "index_bundle_offers_on_bundle_id"
     t.index ["offer_id"], name: "index_bundle_offers_on_offer_id"
   end
@@ -455,6 +456,14 @@ ActiveRecord::Schema.define(version: 2023_07_05_132350) do
     t.index ["project_id"], name: "index_project_items_on_project_id"
   end
 
+  create_table "project_research_products", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "research_product_id", null: false
+    t.index ["project_id", "research_product_id"], name: "index_on_project_id_and_rp_id", unique: true
+    t.index ["project_id"], name: "index_project_research_products_on_project_id"
+    t.index ["research_product_id"], name: "index_project_research_products_on_research_product_id"
+  end
+
   create_table "project_scientific_domains", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "scientific_domain_id"
@@ -567,6 +576,17 @@ ActiveRecord::Schema.define(version: 2023_07_05_132350) do
     t.integer "upstream_id"
     t.datetime "synchronized_at"
     t.string "status"
+  end
+
+  create_table "research_products", force: :cascade do |t|
+    t.string "resource_id", null: false
+    t.string "resource_type", null: false
+    t.string "title", null: false
+    t.string "authors", default: [], array: true
+    t.string "links", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_id", "resource_type"], name: "index_research_products_on_resource_id_and_resource_type", unique: true
   end
 
   create_table "scientific_domains", force: :cascade do |t|

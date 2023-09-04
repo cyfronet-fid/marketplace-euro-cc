@@ -5,8 +5,12 @@ module Services::OrderingConfiguration::Bundles
     before_action :find_and_authorize
 
     def create
-      Bundle::Publish.call(@bundle)
-      redirect_to backoffice_service_path(@service)
+      if Bundle::Publish.call(@bundle)
+        redirect_to backoffice_service_path(@service)
+      else
+        flash[:alert] = "Bundle not published, errors: #{@bundle.errors.messages}"
+        redirect_to edit_backoffice_service_bundle_path(@service, @bundle)
+      end
     end
 
     private

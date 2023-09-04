@@ -8,7 +8,7 @@ class Backoffice::Services::Bundles::PublishesController < Backoffice::Applicati
       redirect_to backoffice_service_path(@service)
     else
       flash[:alert] = "Bundle not published, errors: #{@bundle.errors.messages}"
-      redirect_to edit_backoffice_service_offer_path(@service, @bundle)
+      redirect_to edit_backoffice_service_bundle_path(@service, @bundle)
     end
   end
 
