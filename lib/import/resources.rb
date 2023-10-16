@@ -30,7 +30,7 @@ class Import::Resources
     begin
       @token ||= Importers::Token.new(faraday: @faraday).receive_token
       response =
-        Importers::Request.new(@eosc_registry_base_url, "public/resource/adminPage", faraday: @faraday, token: @token)
+        Importers::Request.new(@eosc_registry_base_url, "public/service/adminPage", faraday: @faraday, token: @token)
           .call
     rescue Errno::ECONNREFUSED, Importers::Token::RequestError => e
       abort("import exited with errors - could not connect to #{@eosc_registry_base_url} \n #{e.message}")
@@ -48,6 +48,8 @@ class Import::Resources
       .select { |res| @ids.empty? || @ids.include?(res["service"]["id"]) }
       .each do |service_data|
         service = service_data["service"].merge(service_data["resourceExtras"] || {})
+        service["ppid"] =
+          service_data&.dig("identifiers", "alternativeIdentifiers")&.find { |id| id["type"] == "PID" }&.[]("value")
         output.append(service_data)
 
         synchronized_at = service_data["metadata"]["modifiedAt"].to_i

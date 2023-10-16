@@ -29,12 +29,19 @@ class Import::Providers
     @created_count = 0
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+
   def call
     log "Importing providers from EOSC Registry #{@eosc_registry_base_url}..."
     @request_providers = external_providers_data.select { |pro| @ids.empty? || @ids.include?(pro["provider"]["id"]) }
 
     @request_providers.each do |external_data|
       external_provider_data = external_data["provider"]
+      external_provider_data["ppid"] =
+        external_provider_data
+          &.dig("identifiers", "alternativeIdentifiers")
+          &.find { |id| id["type"] == "PID" }
+          &.[]("value")
       eid = external_provider_data["id"]
       parsed_provider_data = Importers::Provider.new(external_provider_data, Time.now.to_i, "rest").call
       parsed_provider_data["status"] = object_status(external_data["active"], external_data["suspended"])
@@ -70,12 +77,10 @@ class Import::Providers
     log "PROCESSED: #{@request_providers.length}, CREATED: #{@created_count}, " \
           "UPDATED: #{@updated_count}, NOT MODIFIED: #{not_modified}"
 
-    unless @filepath.nil?
-      File.open(@filepath, "w") do |file|
-        file << JSON.pretty_generate(@request_providers.map { |_, request_data| request_data })
-      end
-    end
+    File.open(@filepath, "w") { |file| file << JSON.pretty_generate(@request_providers) } unless @filepath.nil?
   end
+
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
 
   private
 

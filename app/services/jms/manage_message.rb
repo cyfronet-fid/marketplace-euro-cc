@@ -21,7 +21,7 @@ class Jms::ManageMessage < ApplicationService
     @token = token
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity:
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def call
     log @message
@@ -35,6 +35,7 @@ class Jms::ManageMessage < ApplicationService
     case resource_type
     when "service", "infra_service"
       modified_at = modified_at(resource, "serviceBundle")
+      resource["serviceBundle"]["service"]["ppid"] = fetch_ppid(resource["serviceBundle"])
       if resource["serviceBundle"]["service"]["id"].split(".").size != 3
         raise WrongIdError, resource["serviceBundle"]["service"]["id"]
       end
@@ -51,6 +52,7 @@ class Jms::ManageMessage < ApplicationService
       end
     when "provider"
       modified_at = modified_at(resource, "providerBundle")
+      resource["providerBundle"]["provider"]["ppid"] = fetch_ppid(resource["providerBundle"])
       if resource["providerBundle"]["provider"]["id"].split(".").size != 2
         raise WrongIdError, resource["providerBundle"]["provider"]["id"]
       end
@@ -75,21 +77,17 @@ class Jms::ManageMessage < ApplicationService
         )
       end
     when "datasource"
+      hash = resource&.dig("datasourceBundle", "datasource")
       modified_at = modified_at(resource, "datasourceBundle")
-      if resource["datasourceBundle"]["datasource"]["id"].split(".").size != 3
-        raise WrongIdError, resource["datasourceBundle"]["datasource"]["id"]
-      end
+      raise WrongIdError, hash["serviceId"] if hash["serviceId"].split(".").size != 3
+
       case action
       when "delete"
-        Service::DeleteJob.perform_later(resource["datasourceBundle"]["datasource"]["id"])
+        Datasource::DeleteJob.perform_later(hash["serviceId"])
       when "update", "create"
-        Datasource::PcCreateOrUpdateJob.perform_later(
-          resource["datasourceBundle"]["datasource"].merge(resource["datasourceBundle"]["resourceExtras"] || {}),
-          resource["datasourceBundle"]["active"] && !resource["datasourceBundle"]["suspended"],
-          @eosc_registry_base_url,
-          @token,
-          modified_at
-        )
+        is_active = resource["datasourceBundle"]["active"] && !resource["datasourceBundle"]["suspended"]
+        hash["status"] = is_active ? "published" : "draft"
+        Datasource::PcCreateOrUpdateJob.perform_later(hash, is_active, modified_at)
       end
     else
       raise WrongMessageError
@@ -112,6 +110,12 @@ class Jms::ManageMessage < ApplicationService
 
   def log(msg)
     @logger.info(msg)
+  end
+
+  def fetch_ppid(resource)
+    candidate = [resource&.dig("identifiers", "alternativeIdentifiers", "alternativeIdentifier")]
+    candidate = candidate.blank? ? "" : candidate&.find { |id| id["type"] == "PID" }
+    candidate.blank? ? "" : candidate["value"]
   end
 
   def warn(msg)

@@ -14,6 +14,7 @@ class Backoffice::ServicePolicy < ApplicationPolicy
   end
 
   MP_INTERNAL_FIELDS = [
+    :type,
     :restrictions,
     :status,
     :activate_message,
@@ -66,7 +67,6 @@ class Backoffice::ServicePolicy < ApplicationPolicy
 
   def permitted_attributes
     attrs = [
-      :type,
       :name,
       :abbreviation,
       :description,

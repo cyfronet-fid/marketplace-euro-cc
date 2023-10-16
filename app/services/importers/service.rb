@@ -103,6 +103,7 @@ class Importers::Service < ApplicationService
     main_contact = @data["mainContact"].present? ? MainContact.new(map_contact(@data["mainContact"])) : nil
 
     {
+      ppid: @data["ppid"],
       pid: @data["id"],
       # Basic
       name: @data["name"],
