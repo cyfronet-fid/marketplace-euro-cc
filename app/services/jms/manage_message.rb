@@ -113,9 +113,14 @@ class Jms::ManageMessage < ApplicationService
   end
 
   def fetch_ppid(resource)
-    candidate = [resource&.dig("identifiers", "alternativeIdentifiers", "alternativeIdentifier")]
-    candidate = candidate.blank? ? "" : candidate&.find { |id| id["type"] == "PID" }
-    candidate.blank? ? "" : candidate["value"]
+    if resource.key?("identifiers") && resource["identifiers"].key?("alternativeIdentifiers") &&
+         resource["identifiers"]["alternativeIdentifiers"].key?("alternativeIdentifier")
+      candidate = [resource&.dig("identifiers", "alternativeIdentifiers", "alternativeIdentifier")]
+      candidate = candidate.blank? ? "" : candidate&.find { |id| id["type"] == "PID" }
+      candidate.blank? ? "" : candidate["value"]
+    else
+      ""
+    end
   end
 
   def warn(msg)
