@@ -109,7 +109,6 @@ RSpec.describe Backoffice::ServicePolicy, backend: true do
       policy = described_class.new(service_owner, service)
       expect(policy.permitted_attributes).to match_array(
         [
-          :type,
           :restrictions,
           :activate_message,
           [owner_ids: []],

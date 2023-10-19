@@ -113,6 +113,8 @@ class Jms::ManageMessage < ApplicationService
   end
 
   def fetch_ppid(resource)
+    # TODO: Remove that print when functionality of PPID confirmed and working
+    puts resource
     if resource.key?("identifiers") && resource["identifiers"].key?("alternativeIdentifiers") &&
          resource["identifiers"]["alternativeIdentifiers"].key?("alternativeIdentifier")
       candidate = [resource&.dig("identifiers", "alternativeIdentifiers", "alternativeIdentifier")]
