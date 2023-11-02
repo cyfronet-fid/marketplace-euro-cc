@@ -48,8 +48,13 @@ class Import::Resources
       .select { |res| @ids.empty? || @ids.include?(res["service"]["id"]) }
       .each do |service_data|
         service = service_data["service"].merge(service_data["resourceExtras"] || {})
-        service["ppid"] =
-          service_data&.dig("identifiers", "alternativeIdentifiers")&.find { |id| id["type"] == "PID" }&.[]("value")
+        ppid_candidate =
+          if service_data.key?("identifiers") && service_data["identifiers"].key?("alternativeIdentifiers")
+            service_data.dig("identifiers", "alternativeIdentifiers")&.find { |id| id["type"] == "PID" }
+          else
+            { value: "" }
+          end
+        service["ppid"] = ppid_candidate&.[]("value")
         output.append(service_data)
 
         synchronized_at = service_data["metadata"]["modifiedAt"].to_i
