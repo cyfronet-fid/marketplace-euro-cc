@@ -65,8 +65,10 @@ module Mp
       end
     config.google_api_key_path = ENV.fetch("GOOGLE_AUTH_KEY_FILEPATH", "config/google_api_key.json")
     config.monitoring_data_host = ENV.fetch("MONITORING_DATA_URL", "https://api.devel.argo.grnet.gr/api")
-    config.monitoring_data_token = ENV.fetch("MONITORING_DATA_TOKEN",
-                                             Rails.application.credentials.monitoring_data[:access_token])
+    monitoring_token = if Rails&.application&.credentials&.monitoring_data&.[](:access_token).present?
+                         Rails.application.credentials.monitoring_data[:access_token]
+                       end
+    config.monitoring_data_token = ENV.fetch("MONITORING_DATA_TOKEN", monitoring_token)
     config.similar_services_host = ENV["SIMILAR_SERVICES_HOST"] || "http://149.156.10.234:4559"
     config.recommender_host = ENV["RECOMMENDER_HOST"]
     config.recommendation_engine = ENV["RECOMMENDATION_ENGINE"] || "RL"
